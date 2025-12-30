@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Across the Aisle</title>
+    <style>
+        /* ... your existing CSS unchanged ... */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            color: #333;
+            overflow: hidden;
+        }
+
+        /* ... rest of your CSS ... */
+        .container { height: 100vh; max-width: 1000px; margin: 0 auto; padding: 1rem; display: flex; flex-direction: column; }
+        .header { text-align: center; margin-bottom: 1rem; background: rgba(255, 255, 255, 0.95); padding: 1.5rem; border-radius: 20px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1); backdrop-filter: blur(10px); }
+        .header h1 { font-size: 2rem; color: #2d3748; margin-bottom: 0.5rem; font-weight: 700; }
+        .header p { font-size: 1rem; color: #4a5568; line-height: 1.6; }
+        .chat-container { flex: 1; background: rgba(255, 255, 255, 0.95); border-radius: 20px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1); backdrop-filter: blur(10px); display: flex; flex-direction: column; overflow: hidden; min-height: 0; }
+        .chat-messages { flex: 1; padding: 1.5rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1rem; }
+        .message { display: flex; gap: 0.75rem; animation: fadeInUp 0.4s ease; }
+        .message.user { flex-direction: row-reverse; }
+        .message-avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.1rem; flex-shrink: 0; }
+        .message.ai .message-avatar { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .message.user .message-avatar { background: #e2e8f0; color: #4a5568; }
+        .message-content { max-width: 70%; padding: 1rem 1.25rem; border-radius: 18px; line-height: 1.5; }
+        .message.ai .message-content { background: #f7fafc; border-bottom-left-radius: 6px; }
+        .message.user .message-content { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-bottom-right-radius: 6px; }
+        .chat-input { padding: 1.5rem; border-top: 1px solid #e2e8f0; background: white; }
+        .input-form { display: flex; gap: 1rem; align-items: flex-end; }
+        .input-wrapper { flex: 1; position: relative; }
+        .chat-textarea { width: 100%; min-height: 50px; max-height: 120px; padding: 0.75rem 1rem; border: 2px solid #e2e8f0; border-radius: 25px; font-size: 1rem; line-height: 1.4; resize: none; transition: border-color 0.3s ease, box-shadow 0.3s ease; font-family: inherit; }
+        .chat-textarea:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); }
+        .send-button { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; flex-shrink: 0; }
+        .send-button:hover:not(:disabled) { transform: scale(1.05); box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3); }
+        .send-button:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+        .typing-indicator { display: none; padding: 1rem 1.25rem; background: #f7fafc; border-radius: 18px; border-bottom-left-radius: 6px; max-width: 70%; }
+        .typing-indicator.active { display: block; }
+        .typing-dots { display: flex; gap: 4px; align-items: center; }
+        .typing-dot { width: 8px; height: 8px; border-radius: 50%; background: #9ca3af; animation: typing 1.4s infinite; }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typing { 0%, 60%, 100% { opacity: 0.3; transform: scale(0.8); } 30% { opacity: 1; transform: scale(1); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .conversation-complete { background: #f0fff4; border: 2px solid #68d391; border-radius: 12px; padding: 1rem; margin-top: 1rem; text-align: center; }
+        .restart-button { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 0.5rem 1.5rem; border-radius: 25px; font-size: 0.9rem; cursor: pointer; margin-top: 0.5rem; transition: all 0.3s ease; }
+        .restart-button:hover { transform: translateY(-1px); box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3); }
+        @media (max-width: 768px) {
+            .container { padding: 0.5rem; }
+            .header { padding: 1rem; margin-bottom: 0.5rem; }
+            .header h1 { font-size: 1.5rem; }
+            .message-content { max-width: 85%; }
+            .chat-input { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Across the Aisle</h1>
+            <p>Let's have a thoughtful conversation about your political views to better understand different perspectives.</p>
+        </div>
+
+        <div class="chat-container">
+            <div class="chat-messages" id="chatMessages">
+                <div class="message ai" id="greetingMessage">
+                    <div class="message-avatar">AI</div>
+                    <div class="message-content">
+                        Hello! I'm here to help you explore different political perspectives in a respectful way.
+                    </div>
+                </div>
+            </div>
+
+            <div class="typing-indicator" id="typingIndicator">
+                <div class="typing-dots">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            </div>
+
+            <div class="chat-input">
+                <form class="input-form" id="chatForm">
+                    <div class="input-wrapper">
+                        <textarea 
+                            id="messageInput" 
+                            class="chat-textarea" 
+                            placeholder="Type your response..."
+                            rows="1"
+                            required
+                        ></textarea>
+                    </div>
+                    <button type="submit" class="send-button" id="sendButton">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22,2 15,22 11,13 2,9"></polygon>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let sessionId = null;
+        let conversationComplete = false;
+
+        function addMessage(content, isUser = false) {
+            const messagesContainer = document.getElementById('chatMessages');
+            // Remove the initial "Hello!" message if it exists
+            const greetingMessage = document.getElementById('greetingMessage');
+            if (greetingMessage) {
+                greetingMessage.remove();
+            }
+
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'ai'}`;
+            messageDiv.innerHTML = `
+                <div class="message-avatar">${isUser ? 'You' : 'AI'}</div>
+                <div class="message-content">${content.replace(/\n/g, '<br>')}</div>
+            `;
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function showTyping() {
+            document.getElementById('typingIndicator').classList.add('active');
+            const messagesContainer = document.getElementById('chatMessages');
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function hideTyping() {
+            document.getElementById('typingIndicator').classList.remove('active');
+        }
+
+        function setInputEnabled(enabled) {
+            document.getElementById('messageInput').disabled = !enabled;
+            document.getElementById('sendButton').disabled = !enabled;
+        }
+        
+        function showConversationComplete(finalMessage) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const completeDiv = document.createElement('div');
+            completeDiv.className = 'conversation-complete';
+            completeDiv.innerHTML = `
+                <strong>🎉 Conversation Complete!</strong>
+                <p>${finalMessage || "Thank you for sharing your perspectives."}</p>
+                <button class="restart-button" onclick="restartConversation()">Start New Conversation</button>
+            `;
+            messagesContainer.appendChild(completeDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function restartConversation() {
+            location.reload(); // Simplest way to restart
+        }
+
+        async function sendMessage(message) {
+            if (conversationComplete) return;
+            
+            if (message) { // Only add user message if it's not empty
+                addMessage(message, true);
+            }
+            
+            setInputEnabled(false);
+            showTyping();
+            
+            try {
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: message, session_id: sessionId })
+                });
+                
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                
+                const data = await response.json();
+                sessionId = data.session_id; // Always update session ID from response
+                
+                hideTyping();
+                addMessage(data.response);
+                
+                if (data.conversation_complete) {
+                    conversationComplete = true;
+                    setInputEnabled(false);
+                    // The final message might be in the 'response' field, so we don't call showConversationComplete() separately
+                } else {
+                    setInputEnabled(true);
+                    document.getElementById('messageInput').focus();
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                hideTyping();
+                addMessage('Sorry, there was an error processing your message. Please try again.');
+                setInputEnabled(true);
+            }
+        }
+
+        // Auto-resize textarea
+        function autoResize(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
+        }
+
+        // Event listeners
+        document.getElementById('chatForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const messageInput = document.getElementById('messageInput');
+            const message = messageInput.value.trim();
+            if (message && !conversationComplete) {
+                sendMessage(message);
+                messageInput.value = '';
+                autoResize(messageInput);
+            }
+        });
+
+        document.getElementById('messageInput').addEventListener('input', function() { autoResize(this); });
+
+        document.getElementById('messageInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                document.getElementById('chatForm').dispatchEvent(new Event('submit'));
+            }
+        });
+
+        // Initialize by sending an empty message to kick things off
+        document.addEventListener('DOMContentLoaded', () => {
+            sendMessage(''); // Send an empty message to start the conversation on the backend
+            document.getElementById('messageInput').focus();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,172 @@
+{
+  "user_1": {
+    "political_orientation": {
+      "libertarian_or_authoritarian": "libertarian",
+      "left_or_right": "left",
+      "conservative_or_progressive": "progressive",
+      "individualist_or_collectivist": "collectivist"
+    },
+    "demographics": {
+      "socio_economic_status": "middle-class",
+      "job_sector": "education",
+      "religion": "none",
+      "location": "New York",
+      "rural_or_urban": "urban",
+      "red_or_blue_state": "blue",
+      "red_or_blue_city": "blue"
+    }
+  },
+  "user_2": {
+    "political_orientation": {
+      "libertarian_or_authoritarian": "authoritarian",
+      "left_or_right": "right",
+      "conservative_or_progressive": "conservative",
+      "individualist_or_collectivist": "individualist"
+    },
+    "demographics": {
+      "socio_economic_status": "upper-middle-class",
+      "job_sector": "finance",
+      "religion": "Christian",
+      "location": "Texas",
+      "rural_or_urban": "urban",
+      "red_or_blue_state": "red",
+      "red_or_blue_city": "red"
+    }
+  },
+  "user_3": {
+    "political_orientation": {
+      "libertarian_or_authoritarian": "libertarian",
+      "left_or_right": "right",
+      "conservative_or_progressive": "conservative",
+      "individualist_or_collectivist": "individualist"
+    },
+    "demographics": {
+      "socio_economic_status": "working-class",
+      "job_sector": "manufacturing",
+      "religion": "Christian",
+      "location": "Ohio",
+      "rural_or_urban": "rural",
+      "red_or_blue_state": "red",
+      "red_or_blue_city": "red"
+    }
+  },
+  "user_4": {
+    "political_orientation": {
+      "libertarian_or_authoritarian": "authoritarian",
+      "left_or_right": "left",
+      "conservative_or_progressive": "progressive",
+      "individualist_or_collectivist": "collectivist"
+    },
+    "demographics": {
+      "socio_economic_status": "middle-class",
+      "job_sector": "healthcare",
+      "religion": "Jewish",
+      "location": "California",
+      "rural_or_urban": "urban",
+      "red_or_blue_state": "blue",
+      "red_or_blue_city": "blue"
+    }
+  },
+  "user_5": {
+    "political_orientation": {
+      "libertarian_or_authoritarian": "libertarian",
+      "left_or_right": "left",
+      "conservative_or_progressive": "progressive",
+      "individualist_or_collectivist": "collectivist"
+    },
+    "demographics": {
+      "socio_economic_status": "working-class",
+      "job_sector": "technology",
+      "religion": "none",
+      "location": "Washington",
+      "rural_or_urban": "urban",
+      "red_or_blue_state": "blue",
+      "red_or_blue_city": "blue"
+    }
+  },
+  "user_6": {
+    "political_orientation": {
+      "libertarian_or_authoritarian": "authoritarian",
+      "left_or_right": "right",
+      "conservative_or_progressive": "conservative",
+      "individualist_or_collectivist": "individualist"
+    },
+    "demographics": {
+      "socio_economic_status": "upper-class",
+      "job_sector": "law",
+      "religion": "Christian",
+      "location": "Florida",
+      "rural_or_urban": "urban",
+      "red_or_blue_state": "red",
+      "red_or_blue_city": "red"
+    }
+  },
+  "user_7": {
+    "political_orientation": {
+      "libertarian_or_authoritarian": "libertarian",
+      "left_or_right": "left",
+      "conservative_or_progressive": "progressive",
+      "individualist_or_collectivist": "collectivist"
+    },
+    "demographics": {
+      "socio_economic_status": "middle-class",
+      "job_sector": "media",
+      "religion": "Muslim",
+      "location": "Illinois",
+      "rural_or_urban": "urban",
+      "red_or_blue_state": "blue",
+      "red_or_blue_city": "blue"
+    }
+  },
+  "user_8": {
+    "political_orientation": {
+      "libertarian_or_authoritarian": "authoritarian",
+      "left_or_right": "right",
+      "conservative_or_progressive": "conservative",
+      "individualist_or_collectivist": "individualist"
+    },
+    "demographics": {
+      "socio_economic_status": "working-class",
+      "job_sector": "agriculture",
+      "religion": "Christian",
+      "location": "Iowa",
+      "rural_or_urban": "rural",
+      "red_or_blue_state": "red",
+      "red_or_blue_city": "red"
+    }
+  },
+  "user_9": {
+    "political_orientation": {
+      "libertarian_or_authoritarian": "libertarian",
+      "left_or_right": "left",
+      "conservative_or_progressive": "progressive",
+      "individualist_or_collectivist": "collectivist"
+    },
+    "demographics": {
+      "socio_economic_status": "middle-class",
+      "job_sector": "non-profit",
+      "religion": "Hindu",
+      "location": "Massachusetts",
+      "rural_or_urban": "urban",
+      "red_or_blue_state": "blue",
+      "red_or_blue_city": "blue"
+    }
+  },
+  "user_10": {
+    "political_orientation": {
+      "libertarian_or_authoritarian": "authoritarian",
+      "left_or_right": "right",
+      "conservative_or_progressive": "conservative",
+      "individualist_or_collectivist": "individualist"
+    },
+    "demographics": {
+      "socio_economic_status": "upper-middle-class",
+      "job_sector": "government",
+      "religion": "Christian",
+      "location": "Arizona",
+      "rural_or_urban": "urban",
+      "red_or_blue_state": "red",
+      "red_or_blue_city": "red"
+    }
+  }
+}
